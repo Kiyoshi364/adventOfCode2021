@@ -6,11 +6,11 @@ days_exe = $(foreach i,$(days) $(days_extra),exe/$(i))
 days_hs = $(foreach i,$(days) $(days_extra),$(i).hs)
 
 $(days_hs): %.hs:
-	echo -n 'main :: IO ()\nmain = putStrLn "Hello from $*:"\n      >>'\
-		'getContents\n      >>= putStr . unlines . take 5 . lines\n\nsolve'\
-		':: [Int] -> Int\nsolve = undefined' > $@
+	echo -n 'main :: IO ()\r\nmain = putStrLn "Hello from $*:"\r\n      >>'\
+		'getContents\r\n      >>= putStr . unlines . take 5 .'\
+		'lines\r\n\r\nsolve :: [Int] -> Int\r\nsolve = undefined' > $@
 
-$(days_exe): exe/%: %.hs
+$(days_exe): exe/%: %.hs Utils.hs
 	@echo === compiling to $@ ===
 	ghc $*.hs -o $@
 
