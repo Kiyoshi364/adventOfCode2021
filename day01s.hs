@@ -6,7 +6,6 @@ main = putStrLn "Hello from day01:"
       >>= putStr . unlines . (:[]) . show . solve . map read . lines
 
 solve :: [Int] -> Int
-solve xs = zipWith3 ((+) ... (+)) (tail $ tail xs) (tail xs) xs
-        |> hook (zipWith (-)) tail
-        |> filter (> 0)
-        |> length
+solve = hook (zipWith (-)) (tail ^: 3)
+        \. filter (> 0)
+        \. length

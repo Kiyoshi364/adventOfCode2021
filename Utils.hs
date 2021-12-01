@@ -2,6 +2,7 @@ module Utils
     ( (\.)
     , (|>)
     , (...)
+    , (^:)
     , fork, hook
     ) where
 
@@ -15,6 +16,12 @@ infixl 0 |>
 
 (...) :: (c -> d) -> (a -> b -> c) -> a -> b -> d
 (...) = (.) (.) (.)
+
+(^:) :: (a -> a) -> Int -> a -> a
+(^:) f n x
+    | n <  0    = error $ "^: received negative number (" ++ show n ++ ")"
+    | n == 0    = x
+    | otherwise = f ^: (n-1) $ f x
 
 fork :: (a1 -> a2 -> b) -> (a -> a1) -> (a -> a2) -> a -> b
 fork h f g x = h (f x) (g x)
