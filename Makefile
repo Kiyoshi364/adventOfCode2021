@@ -13,7 +13,7 @@ $(days_hs): %.hs:
 		'getContents\r\n      >>= putStr . unlines . take 5 .'\
 		'lines\r\n\r\nsolve :: [Int] -> Int\r\nsolve = undefined' > $@
 
-$(days_exe): exe/%: %.hs Utils.hs
+$(days_exe): exe/%: %.hs Utils.hs Parser.hs
 	@echo === compiling to $@ ===
 	ghc $*.hs -Wall -o $@
 
