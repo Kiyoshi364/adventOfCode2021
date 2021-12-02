@@ -8,9 +8,7 @@ type Depth = Int
 type Pos = (Horiz, Depth)
 
 main :: IO ()
-main = putStrLn "Hello from day02:"
-      >> getContents
-      >>= putStr . unlines . (:[]) . show . solve . map format . lines
+main = getContents >>= putStrLn . show . solve . map format . lines
 
 format :: String -> Pos -> Pos
 format = P.mkInput
