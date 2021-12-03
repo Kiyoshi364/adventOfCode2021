@@ -1,5 +1,5 @@
 import Utils ((\.), (|$>))
-import Utils (onSnd, onPair, dup)
+import Utils (onSnd, onPair, onBoth)
 import Parser as P
 import Control.Applicative ((<|>))
 
@@ -14,7 +14,7 @@ format :: String -> Pos -> Pos
 format = P.mkInput
         \. P.runP ((fdP <|> upP <|> dnP) <* P.optP (P.charP '\r') <* P.eofP)
         \. P.value
-        \. either (error . ("day02.format: bad input: "++)) (onPair $ dup (+))
+        \. either (error . ("day02.format: bad input: "++)) (onBoth (+))
         \. onPair
 
 fdP :: Parser Pos

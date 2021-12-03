@@ -1,7 +1,7 @@
 module Utils
     ( (\.) , (|>) , (|$>) , (...) , (^:)
     , fork, hook
-    , onFst, onSnd, onPair, dup
+    , onFst, onSnd, onPair, onBoth, dup
     ) where
 
 -- Combinators
@@ -43,6 +43,9 @@ onSnd f (a, b) = (a, f b)
 
 onPair :: (a -> a', b -> b') -> (a, b) -> (a', b')
 onPair (fa, fb) = onFst fa . onSnd fb
+
+onBoth :: (a -> a') -> (a, a) -> (a', a')
+onBoth = onPair . dup
 
 dup :: a -> (a, a)
 dup = hook (,) id
