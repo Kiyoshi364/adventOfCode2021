@@ -2,6 +2,7 @@ module Utils
     ( (\.) , (|>) , (|$>) , (...) , (^:)
     , fork, hook
     , onFst, onSnd, onPair, onBoth, dup
+    , loop
     ) where
 
 -- Combinators
@@ -49,3 +50,10 @@ onBoth = onPair . dup
 
 dup :: a -> (a, a)
 dup = hook (,) id
+
+-- Morphisms
+
+loop :: (a -> Either b a) -> a -> b
+loop f x = case f x of
+    Right x' -> loop f x'
+    Left  y  -> y
