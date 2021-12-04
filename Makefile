@@ -9,12 +9,7 @@ days_hs = $(foreach i,$(days_all),$(i).hs)
 all: $(days_all)
 
 $(days_hs): %.hs:
-	echo -n 'import Utils ((\.), (|>))\r\n\r\nmain'\
-		':: IO ()\r\nmain = putStrLn "Hello from $*:"'\
-		'>> getContents\r\n      >>= putStr . unlines . take 5 .'\
-		'lines\r\n-- main = getContents >>= putStrLn . show . solve .'\
-		'map read . lines\r\n\r\nsolve :: [Int] -> Int\r\nsolve ='\
-		'undefined' > $@
+	cat default.hs > $@
 
 $(days_exe): exe/%: %.hs Utils.hs Parser.hs
 	@echo === compiling to $@ ===
