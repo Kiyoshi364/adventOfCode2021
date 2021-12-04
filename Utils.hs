@@ -3,7 +3,10 @@ module Utils
     , fork, hook
     , onFst, onSnd, onPair, onBoth, dup
     , loop
+    , ifelse, mapif, bool
     ) where
+
+import Data.Bool (bool)
 
 -- Combinators
 
@@ -57,3 +60,11 @@ loop :: (a -> Either b a) -> a -> b
 loop f x = case f x of
     Right x' -> loop f x'
     Left  y  -> y
+
+-- Control
+
+ifelse :: (a -> Bool) -> (a -> b) -> (a -> b) -> a -> b
+ifelse p true false = hook (bool false true) p
+
+mapif :: Functor f => (a -> Bool) -> (a -> a) -> f a -> f a
+mapif p f = fmap $ ifelse p f id

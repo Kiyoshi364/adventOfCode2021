@@ -106,11 +106,11 @@ spaceP = charP ' '
 wsP :: Parser String
 wsP = some $ spaceP <|> charP '\t'
 
-lfP :: Parser String
-lfP = some $ charP '\n' <|> charP '\r'
+lfP :: Parser Char
+lfP = optP (charP '\r') *> charP '\n'
 
 whiteP :: Parser String
-whiteP = concat <$> many (wsP <|> lfP)
+whiteP = concat <$> many (wsP <|> fmap (:[]) lfP)
 
 strP :: String -> Parser String
 strP str = (<|>) (sequenceA $ map charP str)
@@ -150,6 +150,11 @@ optP (Parser p) = Parser $ \ input ->
     case p input of
         Parsed input' (Left  _) -> Parsed input' $ Right $ Nothing
         Parsed input' (Right x) -> Parsed input' $ Right $ Just x
+
+countP :: Int -> Parser a -> Parser [a]
+countP n p
+  | n <= 0    = pure []
+  | otherwise = fmap (:) p <*> countP (n-1) p
 
 untilEof :: Parser a -> Parser [a]
 untilEof p = (eofP *> pure []) <|> ((:) <$> p <*> rec)
