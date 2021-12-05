@@ -1,5 +1,5 @@
 import Utils ((\.), (|>))
-import Parser as p
+import Parser as P
 import Control.Applicative ((<|>), (<*>), (*>), (<*))
 
 main :: IO ()
