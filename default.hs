@@ -1,6 +1,5 @@
 import Utils ((\.), (|>))
 import Parser as P
-import Control.Applicative ((<|>), (<*>), (*>), (<*))
 
 main :: IO ()
 main = putStrLn "Hello from $*:"
