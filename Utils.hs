@@ -3,7 +3,7 @@ module Utils
     , fork, fork2, hook, hook2
     , assert, assertWith
     , onFst, onSnd, onPair, onBoth, dup
-    , loop
+    , loop, loopLast
     , ifelse, mapif, bool
     ) where
 
@@ -81,6 +81,11 @@ loop :: (a -> Either b a) -> a -> b
 loop f x = case f x of
     Right x' -> loop f x'
     Left  y  -> y
+
+loopLast :: (a -> Either b a) -> a -> a
+loopLast f x = case f x of
+    Right x' -> loopLast f x'
+    Left  _  -> x
 
 -- Control
 

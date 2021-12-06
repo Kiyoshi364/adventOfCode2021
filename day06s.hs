@@ -21,7 +21,7 @@ solve :: [Int] -> Int
 solve = sort
     \. group
     \. fmap (fork (,) head length)
-    \. (,) 80
+    \. (,) 256
     \. loop (uncurry oneDay)
 
 oneDay :: Int -> [(Timer, Amount)] -> Either Int (Int, [(Timer, Amount)])
