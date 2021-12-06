@@ -2,9 +2,7 @@ import Utils ((\.), (|>))
 import Parser as P
 
 main :: IO ()
-main = putStrLn "Hello from $*:"
-      >> getContents >>= putStr . unlines . take 5 . lines
--- main = getContents >>= putStrLn . show . solve . map format . lines
+main = getContents >>= putStrLn . show . solve . map format . lines
 
 format :: String -> [Int]
 format = P.mkInput

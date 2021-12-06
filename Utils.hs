@@ -1,6 +1,7 @@
 module Utils
-    ( (\.) , (|>) , (|$>) , (...) , (^:)
-    , fork, hook
+    ( (\.) , (|>) , (|$>) , (...) , (\..) , (^:)
+    , fork, fork2, hook, hook2
+    , assert, assertWith
     , onFst, onSnd, onPair, onBoth, dup
     , loop
     , ifelse, mapif, bool
@@ -25,6 +26,9 @@ infixr 4 |$>
 (...) :: (c -> d) -> (a -> b -> c) -> a -> b -> d
 (...) = (.) (.) (.)
 
+(\..) :: (a -> b -> c) -> (c -> d) -> a -> b -> d
+(\..) = flip (...)
+
 (^:) :: (a -> a) -> Int -> a -> a
 (^:) f n x
     | n <  0    = error $ "^: received negative number (" ++ show n ++ ")"
@@ -34,8 +38,25 @@ infixr 4 |$>
 fork :: (a1 -> a2 -> b) -> (a -> a1) -> (a -> a2) -> a -> b
 fork h f g x = h (f x) (g x)
 
+fork2 :: (b1 -> b2 -> c) -> (a1 -> a2 -> b1) -> (a1 -> a2 -> b2)
+         -> a1 -> a2 -> c
+fork2 h f g x y = h (f x y) (g x y)
+
 hook :: (a1 -> a -> b) -> (a -> a1) -> a -> b
 hook h f = fork h f id
+
+hook2 :: (a -> b1 -> c) -> (b -> b1) -> a -> b -> c
+hook2 h f = fork2 h const (const f)
+
+-- Assertions
+
+assert :: Show a => (a -> Bool) -> a -> a
+assert = assertWith $ ("assertion fail: "++) . show
+
+assertWith :: (a -> String) -> (a -> Bool) -> a -> a
+assertWith f p x
+    | p x       =  x
+    | otherwise = error $ f x
 
 -- Pair
 
