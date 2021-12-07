@@ -23,7 +23,7 @@ days_hs = $(foreach i,$(days_allH),$(i).hs)
 daysC = $(call mkday_fn,$(numC))
 days_allC = $(call mkall_fn,$(daysC))
 days_c_extra = $(foreach i,$(daysC),$(i)$(extra))
-days_c_exe = = $(call mkexe_fn,$(days_allC))
+days_c_exe = $(call mkexe_fn,$(days_allC))
 
 all: $(days_all)
 allh: $(days_allH)
