@@ -1,6 +1,6 @@
 module Utils
     ( (\.) , (|>) , (|$>) , (...) , (\..) , (^:)
-    , fork, fork2, hook, hook2
+    , fork, fork2, hook, hook2, manyFsOneX
     , assert, assertWith
     , onFst, onSnd, onPair, onBoth, dup
     , loop, loopLast
@@ -47,6 +47,9 @@ hook h f = fork h f id
 
 hook2 :: (a -> b1 -> c) -> (b -> b1) -> a -> b -> c
 hook2 h f = fork2 h const (const f)
+
+manyFsOneX :: [(a -> b)] -> a -> [b]
+manyFsOneX = flip (.) (flip ($)) . flip fmap
 
 -- Assertions
 
