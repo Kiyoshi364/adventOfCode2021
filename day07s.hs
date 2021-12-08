@@ -1,4 +1,4 @@
-import Utils ((\.), (\..), fork, fork2)
+import Utils ((\.), (\..), fork, fork2, hook)
 import Parser as P
 import Control.Applicative (some)
 import Data.List (sort)
@@ -13,11 +13,20 @@ format = P.mkInput
         \. P.value
         \. either (error . ("day07.format: bad input: "++)) id
 
-solve :: [Int] -> Int
-solve = sort
+solve :: [Int] -> (Int, Int)
+solve = fork (,) solveOriginal solveByHugoNobrega
+
+solveOriginal :: [Int] -> Int
+solveOriginal = sort
       \. fork zip (foldr max 0 \. flip take [1..]) repeat
       \. fmap (uncurry costList)
       \. foldr1 min
+
+solveByHugoNobrega :: [Int] -> Int
+solveByHugoNobrega = hook costList avg
+
+avg :: [Int] -> Int
+avg = fork div (foldr (+) 0) length
 
 costList :: Int -> [Int] -> Int
 costList = ( absminus \.. (cost \. (+)) ) \. flip foldr 0
