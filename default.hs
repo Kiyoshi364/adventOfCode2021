@@ -6,7 +6,8 @@ main = getContents >>= putStrLn . show . solve . map format . lines
 
 format :: String -> [Int]
 format = P.mkInput
-        \. P.runP ( undefined )
+        \. P.runP ( undefined
+            <* P.optP (P.charP '\r') <* P.eofP )
         \. P.value
         \. either (error . ("day??.format: bad input: "++)) id
 
